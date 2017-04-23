@@ -1,6 +1,6 @@
 ﻿using System;
-using TaskScheduler.Shared.Enums;
 using TaskScheduler.Core.TaskTypes.Base;
+using TaskScheduler.Shared.Enums;
 
 namespace TaskScheduler.Core.TaskTypes.Recording.Builder
 {
@@ -8,6 +8,7 @@ namespace TaskScheduler.Core.TaskTypes.Recording.Builder
     {
         const string ChannelPlaceholder = "<channel>";
         const string DurationPlaceholder = "<duration>";
+        readonly string ExecAction = @"""path_to_recording_software""";
         readonly string ExecActionArguments = $@"/quitafterrecord /renderless=on /minimized /chid={ChannelPlaceholder} /duration={DurationPlaceholder}";
 
         private BaseTask _task;
