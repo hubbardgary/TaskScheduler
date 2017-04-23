@@ -1,4 +1,4 @@
-﻿namespace TaskScheduler.Core.Enums
+﻿namespace TaskScheduler.Shared.Enums
 {
     public enum RecurrenceType
     {

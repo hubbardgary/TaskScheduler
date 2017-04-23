@@ -6,7 +6,7 @@ namespace TaskScheduler.Core.Services
 {
     public class TaskFolderService : ITaskFolderService
     {
-        private TaskService _taskService;
+        private readonly TaskService _taskService;
 
         public TaskFolderService(TaskService taskService)
         {

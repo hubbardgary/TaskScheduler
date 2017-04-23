@@ -12,15 +12,15 @@ namespace TaskScheduler.ConsoleTest
         {
             var taskService = new TaskService();
             var taskFolderService = new TaskFolderService(taskService);
-            var taskTriggerBuilder = new TaskTriggerBuilder(taskService);
-            var recordingService = new RecordingService(taskService, taskFolderService, taskTriggerBuilder);
-            var shutdownService = new ShutdownService(taskService, taskFolderService, taskTriggerBuilder);
+            var taskTriggerBuilder = new TaskTriggerBuilder();
+            var recordingService = new RecordingScheduler(taskService, taskFolderService, taskTriggerBuilder);
+            var shutdownService = new ShutdownScheduler(taskService, taskFolderService, taskTriggerBuilder);
 
             recordingService.DeleteTask("title");
 
             var recordingTask = new RecordingTaskBuilder()
                 .SetTitle("title")
-                .SetChannel(1)
+                .SetChannel(42)
                 .SetProgrammeStartTime(new DateTime(2016, 11, 30, 18, 0, 0))
                 .SetProgrammeEndTime(new DateTime(2016, 11, 30, 19, 0, 0))
                 .Build();
@@ -41,6 +41,12 @@ namespace TaskScheduler.ConsoleTest
             shutdownService.AddTask(shutdownTask);
 
             shutdownService.DeleteTask("Test shutdown");
+
+            //var tasks = recordingService.GetTasks();
+            //foreach (var t in tasks)
+            //{
+            //    var a = t;
+            //}
         }
     }
 }

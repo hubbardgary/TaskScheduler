@@ -19,6 +19,8 @@ namespace TaskScheduler.Core.TaskTypes.Recording
                 .SetRecordingStartTime(task.GetRecordingStart())
                 .SetRecordingEndTime(task.GetRecordingStart().AddMinutes(task.GetDuration()))
                 .SetChannel(task.GetChannel())
+                .SetRecurrence(task.Model.Recurrence, task.Model.RecurrenceEndDate)
+                .SetEnabled(task.Model.IsEnabled)
                 .Build();
         }
 
@@ -27,10 +29,11 @@ namespace TaskScheduler.Core.TaskTypes.Recording
             var builder = new BaseTaskBuilder();
             return builder
                 .SetName(Model.Title)
-                .SetIsEnabled(true)
-                .SetRecurrence(Enums.RecurrenceType.OneOff)
+                .SetIsEnabled(Model.IsEnabled)
+                .SetRecurrence(Model.Recurrence, Model.RecurrenceEndDate)
                 .SetStartDate(Model.RecordingStart)
-                .SetExecAction(Model.Channel.Id, Model.RecordingDurationMinutes)
+                .SetExecAction()
+                .SetExecActionArguments(Model.Channel.Id, Model.RecordingDurationMinutes)
                 .SetTriggerTime(Model.RecordingStart)
                 .SetDescription(Model.Title, Model.Channel.Name, Model.ProgrammeStart, Model.ProgrammeEnd)
                 .Build();

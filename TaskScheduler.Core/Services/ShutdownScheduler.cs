@@ -5,11 +5,11 @@ using TaskScheduler.Core.Interfaces;
 
 namespace TaskScheduler.Core.Services
 {
-    public class ShutdownService : TaskSchedulerService<ShutdownTask, ShutdownModel>
+    public class ShutdownScheduler : TaskSchedulerService<ShutdownTask, ShutdownModel>
     {
         public override string TaskFolder { get; set; } = "Shutdown";
 
-        public ShutdownService(TaskService taskService, ITaskFolderService taskFolderService, ITaskTriggerBuilder taskTriggerBuilder) 
+        public ShutdownScheduler(TaskService taskService, ITaskFolderService taskFolderService, ITaskTriggerBuilder taskTriggerBuilder) 
             : base(taskService, taskFolderService, taskTriggerBuilder) { }
     }
 }

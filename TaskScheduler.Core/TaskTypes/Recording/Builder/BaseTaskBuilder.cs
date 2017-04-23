@@ -1,5 +1,5 @@
 ﻿using System;
-using TaskScheduler.Core.Enums;
+using TaskScheduler.Shared.Enums;
 using TaskScheduler.Core.TaskTypes.Base;
 
 namespace TaskScheduler.Core.TaskTypes.Recording.Builder
@@ -8,7 +8,7 @@ namespace TaskScheduler.Core.TaskTypes.Recording.Builder
     {
         const string ChannelPlaceholder = "<channel>";
         const string DurationPlaceholder = "<duration>";
-        readonly string ExecAction = $@"""path_to_recording_software"" /quitafterrecord /renderless=on /minimized /chid={ChannelPlaceholder} /duration={DurationPlaceholder}""";
+        readonly string ExecActionArguments = $@"/quitafterrecord /renderless=on /minimized /chid={ChannelPlaceholder} /duration={DurationPlaceholder}";
 
         private BaseTask _task;
 
@@ -43,9 +43,10 @@ namespace TaskScheduler.Core.TaskTypes.Recording.Builder
             return this;
         }
 
-        public BaseTaskBuilder SetRecurrence(RecurrenceType recurrence)
+        public BaseTaskBuilder SetRecurrence(RecurrenceType recurrence, DateTime recurrenceEndDate)
         {
             _task.Model.Recurrence = recurrence;
+            _task.Model.RecurrenceEndDate = recurrenceEndDate;
             return this;
         }
 
@@ -56,17 +57,24 @@ namespace TaskScheduler.Core.TaskTypes.Recording.Builder
             return this;
         }
         
-        public BaseTaskBuilder SetExecAction(int channelId, int duration)
+        public BaseTaskBuilder SetExecAction()
         {
-            _task.Model.ExecAction = ExecAction.Replace(ChannelPlaceholder, channelId.ToString())
-                              .Replace(DurationPlaceholder, duration.ToString());
+            _task.Model.ExecAction = ExecAction;
+            return this;
+        }
+
+        public BaseTaskBuilder SetExecActionArguments(int channelId, int duration)
+        {
+            _task.Model.ExecActionArguments = ExecActionArguments
+                .Replace(ChannelPlaceholder, channelId.ToString())
+                .Replace(DurationPlaceholder, duration.ToString());
             return this;
         }
 
         public BaseTaskBuilder SetDescription(string showTitle, string channelName, DateTime programmeStart, DateTime programmeEnd)
         {
             _task.Model.Description = 
-                $"Record {showTitle} on {channelName} " +
+                $"Recording {showTitle} on {channelName} " +
                 $"from {programmeStart.ToShortDateString()} {programmeStart.ToShortTimeString()} " +
                 $"to {programmeEnd.ToShortDateString()} {programmeEnd.ToShortTimeString()}.";
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using TaskScheduler.Core.Models.Recording;
+using TaskScheduler.Shared.Enums;
 
 namespace TaskScheduler.Core.TaskTypes.Recording.Builder
 {
@@ -75,6 +76,27 @@ namespace TaskScheduler.Core.TaskTypes.Recording.Builder
         public RecordingTaskBuilder SetChannel(ChannelModel channel)
         {
             _task.Channel = channel;
+            return this;
+        }
+
+        public RecordingTaskBuilder SetEnabled(bool enabled)
+        {
+            _task.IsEnabled = enabled;
+            return this;
+        }
+
+        public RecordingTaskBuilder SetRecurrence(RecurrenceType recurrence, DateTime recurrenceEndDate)
+        {
+            if (recurrence == RecurrenceType.OneOff)
+            {
+                _task.IsRecurring = false;
+            }
+            else
+            {
+                _task.IsRecurring = true;
+                _task.Recurrence = recurrence;
+                _task.RecurrenceEndDate = recurrenceEndDate;
+            }
             return this;
         }
     }

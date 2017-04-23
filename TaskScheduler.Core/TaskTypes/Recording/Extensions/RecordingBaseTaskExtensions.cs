@@ -17,7 +17,7 @@ namespace TaskScheduler.Core.TaskTypes.Recording.Extensions
         
         public static ChannelModel GetChannel(this BaseTask task)
         {
-            const string RegexChannelFromTaskDescription = @"on (?<channel>[a-zA-Z0-9 *]+) from";
+            const string RegexChannelFromTaskDescription = @"Recording .* on (?<channel>[a-zA-Z0-9+ *]+) (from|at)";
 
             // TODO: What should really happen here?
             if (string.IsNullOrEmpty(task.Model.Description))

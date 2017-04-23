@@ -8,17 +8,17 @@ using TaskScheduler.Core.TaskTypes.Base;
 
 namespace TaskScheduler.Core.Services
 {
-    public abstract class TaskSchedulerService<T, TI>
+    public abstract class TaskSchedulerService<T, TI> : ITaskSchedulerService<T, TI>
         where T : ITask<TI>, new()
         where TI : ITaskModel
     {
         public abstract string TaskFolder { get; set; }
 
-        private TaskService _taskService;
-        private ITaskFolderService _taskFolderService;
-        private ITaskTriggerBuilder _taskTriggerBuilder;
+        private readonly TaskService _taskService;
+        private readonly ITaskFolderService _taskFolderService;
+        private readonly ITaskTriggerBuilder _taskTriggerBuilder;
 
-        public TaskSchedulerService(
+        protected TaskSchedulerService(
             TaskService taskService,
             ITaskFolderService taskFolderService,
             ITaskTriggerBuilder taskTriggerBuilder)
@@ -114,7 +114,7 @@ namespace TaskScheduler.Core.Services
             {
                 return folder.GetTasks().Select(t => (T)new T().ToCustomTaskModel(t.ToWindowsTask()));
             }
-            return null;
+            return new List<T>();
         }
     }
 }

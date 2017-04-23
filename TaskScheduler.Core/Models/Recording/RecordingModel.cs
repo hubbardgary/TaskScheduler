@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using TaskScheduler.Core.Enums;
 using TaskScheduler.Core.Interfaces;
+using TaskScheduler.Shared.Enums;
 
 namespace TaskScheduler.Core.Models.Recording
 {
@@ -17,6 +17,7 @@ namespace TaskScheduler.Core.Models.Recording
         public DateTime RecordingEnd { get; set; }
         public bool IsRecurring { get; set; }
         public RecurrenceType Recurrence { get; set; } = RecurrenceType.OneOff;
+        public DateTime RecurrenceEndDate { get; set; }
         public bool IsEnabled { get; set; }
         public string PreviousTitle { get; set; } = "";
         public bool Selected { get; set; }

@@ -1,6 +1,6 @@
 ﻿using System;
-using TaskScheduler.Core.Enums;
 using TaskScheduler.Core.Interfaces;
+using TaskScheduler.Shared.Enums;
 
 namespace TaskScheduler.Core.Models.Shutdown
 {

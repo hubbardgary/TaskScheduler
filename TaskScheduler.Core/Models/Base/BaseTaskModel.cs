@@ -1,6 +1,6 @@
 ﻿using System;
-using TaskScheduler.Core.Enums;
 using TaskScheduler.Core.Interfaces;
+using TaskScheduler.Shared.Enums;
 
 namespace TaskScheduler.Core.Models.Base
 {
@@ -17,6 +17,7 @@ namespace TaskScheduler.Core.Models.Base
         public DateTime LastRunTime { get; set; }
         public RecurrenceType Recurrence { get; set; }
         public bool IsRecurring { get; set; }
+        public DateTime RecurrenceEndDate { get; set; }
         public bool IsExpired { get; set; }
         public bool IsEnabled { get; set; }
         public bool NameHasChanged => Name != PreviousName;
