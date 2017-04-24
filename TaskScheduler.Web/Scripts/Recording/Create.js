@@ -1,4 +1,21 @@
-﻿$("#StartDate").on('input', function () {
+﻿$('document').ready(function () {
+    showOrHideRecurrenceFields();
+});
+
+$('#IsRecurring').on('click', function () {
+    showOrHideRecurrenceFields();
+});
+
+function showOrHideRecurrenceFields() {
+    if ($('#IsRecurring')[0].checked) {
+        $('#recurrence-fields').show();
+    } else {
+        $('#Recurrence').val(1);
+        $('#recurrence-fields').hide();
+    }
+}
+
+$("#StartDate").on('input', function () {
     var startTime = $("#StartTime").val();
     var endTime = $("#EndTime").val();
     if (Date.parse('01/01/2011 ' + endTime + ':00') < Date.parse('01/01/2011 ' + startTime + ':00')) {

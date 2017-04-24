@@ -2,7 +2,7 @@
 @using TaskScheduler.Web.Models.Recording;
 @model PagedList.IPagedList<RecordingViewModel>
     
-<link href = "~/Content/PagedList.css" rel = "stylesheet" type = "text/css" />
+@Styles.Render("~/Content/PagedList.css")
 
 @{
     ViewBag.Title = "Scheduled Recordings";

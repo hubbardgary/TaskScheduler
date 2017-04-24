@@ -74,18 +74,21 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Recurrence, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-2">
-                @Html.DropDownList("Recurrence", EnumHelper.GetSelectList(typeof(RecurrenceType)), new { @class = "form-control" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.RecurrenceEndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-2">
-                @Html.EditorFor(model => model.RecurrenceEndDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RecurrenceEndDate, "", new { @class = "text-danger" })
+        <div id="recurrence-fields" style="display:none">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Recurrence, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.DropDownList("Recurrence", EnumHelper.GetSelectList(typeof(RecurrenceType)), new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RecurrenceEndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.RecurrenceEndDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RecurrenceEndDate, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
@@ -98,10 +101,7 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Recording/Create.js")
 }
