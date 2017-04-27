@@ -31,19 +31,19 @@ namespace TaskScheduler.Web.Services
 
             switch (sortBy)
             {
-                case "title":
+                case "Title":
                     recordings = recordings.OrderBy(x => x.Title).ToList();
                     break;
-                case "channelName":
+                case "ChannelName":
                     recordings = recordings.OrderBy(x => x.ChannelName).ToList();
                     break;
-                case "startDate":
+                case "StartDate":
                     recordings = recordings.OrderBy(x => x.StartDate).ToList();
                     break;
-                case "startTime":
+                case "StartTime":
                     recordings = recordings.OrderBy(x => x.StartDate.ToString("HH:mm")).ToList();
                     break;
-                case "endTime":
+                case "EndTime":
                     recordings = recordings.OrderBy(x => x.EndDate.ToString("HH:mm")).ToList();
                     break;
             }

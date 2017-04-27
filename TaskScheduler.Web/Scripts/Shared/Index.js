@@ -1,9 +1,9 @@
 ﻿$('#deleteSelected').on('click', function () {
-    var recordings = '';
+    var tasks = '';
     $(':checkbox[name*="Selected"]:checked').each(function () {
-        recordings += '<li>' + decodeURIComponent(this.id) + '</li>';
+        tasks += '<li>' + decodeURIComponent(this.id) + '</li>';
     });
-    $('#deleteConfirmMsg').html('Are you sure you wish to delete these recordings?<br /><br /><ul>' + recordings + '</ul>');
+    $('#deleteConfirmMsg').html('Are you sure you wish to delete these scheduled tasks?<br /><br /><ul>' + tasks + '</ul>');
 });
 
 $(':checkbox').on('click', function () {

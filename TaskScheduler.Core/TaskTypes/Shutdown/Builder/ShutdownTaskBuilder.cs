@@ -38,5 +38,17 @@ namespace TaskScheduler.Core.TaskTypes.Shutdown.Builder
             _task.Recurrence = recurrence;
             return this;
         }
+
+        public ShutdownTaskBuilder SetRecurrenceEndDate(DateTime date)
+        {
+            _task.RecurrenceEndDate = date;
+            return this;
+        }
+
+        public ShutdownTaskBuilder SetEnabled(bool enabled)
+        {
+            _task.Enabled = enabled;
+            return this;
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace TaskScheduler.Web.Controllers
             _recordingServices = recordingServices;
         }
 
-        public ActionResult Index(int? page, string sortOrder = "title")
+        public ActionResult Index(int? page, string sortOrder = "Title")
         {
             var recordings = _recordingServices.GetSortedRecording(sortOrder);
             

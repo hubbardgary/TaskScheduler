@@ -49,6 +49,7 @@ namespace TaskScheduler.Web
             container.Register<ITaskSchedulerService<RecordingTask, RecordingModel>, RecordingScheduler>(Lifestyle.Scoped);
             container.Register<ITaskSchedulerService<ShutdownTask, ShutdownModel>, ShutdownScheduler>(Lifestyle.Scoped);
             container.Register<IRecordingServices, RecordingServices>(Lifestyle.Scoped);
+            container.Register<IShutdownServices, ShutdownServices>(Lifestyle.Scoped);
         }
     }
 

@@ -9,5 +9,7 @@ namespace TaskScheduler.Core.Models.Shutdown
         public string Name { get; set; }
         public DateTime ShutdownDateTime { get; set; }
         public RecurrenceType Recurrence { get; set; } = RecurrenceType.OneOff;
+        public DateTime RecurrenceEndDate { get; set; }
+        public bool Enabled { get; set; }
     }
 }

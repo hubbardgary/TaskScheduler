@@ -35,10 +35,22 @@ namespace TaskScheduler.Core.TaskTypes.Shutdown.Builder
             return this;
         }
 
+        public BaseTaskBuilder SetEnabled(bool enabled)
+        {
+            _task.Model.IsEnabled = enabled;
+            return this;
+        }
+
         public BaseTaskBuilder SetRecurrence(RecurrenceType recurrence)
         {
             _task.Model.Recurrence = recurrence;
             _task.Model.IsRecurring = recurrence == RecurrenceType.OneOff ? false : true;
+            return this;
+        }
+
+        public BaseTaskBuilder SetRecurrenceEndDate(DateTime date)
+        {
+            _task.Model.RecurrenceEndDate = date;
             return this;
         }
     }

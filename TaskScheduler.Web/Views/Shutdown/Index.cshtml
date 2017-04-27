@@ -1,21 +1,21 @@
 ﻿@using PagedList.Mvc;
-@using TaskScheduler.Web.Models.Recording;
-@model PagedList.IPagedList<RecordingViewModel>
-    
+@using TaskScheduler.Web.Models.Shutdown;
+@model PagedList.IPagedList<ShutdownViewModel>
+
 @Styles.Render("~/Content/PagedList.css")
 
 @{
-    ViewBag.Title = "Scheduled Recordings";
+    ViewBag.Title = "Scheduled Shutdowns";
     ViewBag.CurrentPage = Model.PageNumber;
 }
 
-<h2>Scheduled Recordings</h2>
+<h2>Scheduled Shutdowns</h2>
 
-@using (Html.BeginForm("Index", "Recording", new { page = ViewBag.CurrentPage }))
+@using (Html.BeginForm("Index", "Shutdown", new { page = ViewBag.CurrentPage }))
 {
     <p>
         <!-- @Html.ActionLink("Create New", "Create") -->
-        <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Recording")';return false;">Create New</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Shutdown")';return false;">Create New</button>
         <button id="editSelected" class="btn btn-primary disabled" onclick="location.href = editUrl.replace('dummyId', $(':checkbox[name*=\'Selected\']:checked:first')[0].id); return false;">Edit Selected</button>
         <button id="deleteSelected" class="btn btn-danger disabled" data-toggle="modal" data-target=".bs-confirm-delete-modal">Delete Selected</button>
     </p>
@@ -25,19 +25,13 @@
 
             </th>
             <th>
-                @Html.ActionLink("Title", "Index", new { page = ViewBag.CurrentPage, sortOrder = "Title" })
+                @Html.ActionLink("Name", "Index", new { page = ViewBag.CurrentPage, sortOrder = "Name" })
             </th>
             <th>
-                @Html.ActionLink("Channel", "Index", new { page = ViewBag.CurrentPage, sortOrder = "ChannelName" })
+                @Html.ActionLink("Date", "Index", new { page = ViewBag.CurrentPage, sortOrder = "ShutdownDate" })
             </th>
             <th>
-                @Html.ActionLink("Start Date", "Index", new { page = ViewBag.CurrentPage, sortOrder = "StartDate" })
-            </th>
-            <th>
-                @Html.ActionLink("Start Time", "Index", new { page = ViewBag.CurrentPage, sortOrder = "StartTime" })
-            </th>
-            <th>
-                @Html.ActionLink("End Time", "Index", new { page = ViewBag.CurrentPage, sortOrder = "EndTime" })
+                @Html.ActionLink("Time", "Index", new { page = ViewBag.CurrentPage, sortOrder = "ShutdownTime" })
             </th>
             <th>
                 Enabled
@@ -55,28 +49,20 @@
         {
             <tr>
                 <td>
-                    @Html.CheckBoxFor(modelItem => Model[i].Selected, new { id = Model[i].Title })
-                    @Html.HiddenFor(modelItem => Model[i].Title)
+                    @Html.CheckBoxFor(modelItem => Model[i].Selected, new { id = Model[i].Name })
+                    @Html.HiddenFor(modelItem => Model[i].Selected)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].Title)
-                    @Html.HiddenFor(modelItem => Model[i].Title)
+                    @Html.DisplayFor(modelItem => Model[i].Name)
+                    @Html.HiddenFor(modelItem => Model[i].Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].ChannelName)
-                    @Html.HiddenFor(modelItem => Model[i].ChannelName)
+                    @Html.DisplayFor(modelItem => Model[i].ShutdownDate)
+                    @Html.HiddenFor(modelItem => Model[i].ShutdownDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].StartDate)
-                    @Html.HiddenFor(modelItem => Model[i].StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model[i].StartTime)
-                    @Html.HiddenFor(modelItem => Model[i].StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model[i].EndTime)
-                    @Html.HiddenFor(modelItem => Model[i].EndTime)
+                    @Html.DisplayFor(modelItem => Model[i].ShutdownTime)
+                    @Html.HiddenFor(modelItem => Model[i].ShutdownTime)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => Model[i].IsEnabled)
@@ -120,5 +106,5 @@
 }
 
 <script language="JavaScript">
-    var editUrl = "@Url.Action("Edit", "Recording", new { id = "dummyId" })";
+    var editUrl = "@Url.Action("Edit", "Shutdown", new { id = "dummyId" })";
 </script>

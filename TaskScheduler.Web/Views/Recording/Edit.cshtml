@@ -74,7 +74,6 @@
             </div>
         </div>
 
-
         <div id="recurrence-fields" style="display:none">
             <div class="form-group">
                 @Html.LabelFor(model => model.Recurrence, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -103,5 +102,6 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Shared/Create.js")
     @Scripts.Render("~/Scripts/Recording/Create.js")
 }
