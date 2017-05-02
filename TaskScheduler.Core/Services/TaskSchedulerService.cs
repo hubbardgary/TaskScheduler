@@ -48,6 +48,7 @@ namespace TaskScheduler.Core.Services
             // TODO: MOVE THESE TO CONFIG OR SPECIFIC TASK IMPLEMENTATIONS
             taskDefinition.Settings.DisallowStartIfOnBatteries = false;
             taskDefinition.Settings.StopIfGoingOnBatteries = false;
+            taskDefinition.Settings.Enabled = task.Model.IsEnabled;
 
             AddTask(task.Model.Name, taskDefinition);
         }

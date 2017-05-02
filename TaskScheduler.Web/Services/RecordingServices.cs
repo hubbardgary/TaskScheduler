@@ -59,7 +59,7 @@ namespace TaskScheduler.Web.Services
                     .SetProgrammeStartTime(recording.StartDate.SetTime(recording.StartTime))
                     .SetProgrammeEndTime(recording.EndDate.SetTime(recording.EndTime))
                     .SetRecurrence(recording.Recurrence, recording.RecurrenceEndDate)
-                    .SetEnabled(true)
+                    .SetEnabled(recording.IsEnabled)
                     .Build();
             _recordingScheduler.AddTask(task);
         }

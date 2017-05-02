@@ -28,7 +28,7 @@ namespace TaskScheduler.Web.Services
                 .SetShutdownDateTime(shutdown.ShutdownDate.AddHours(shutdown.ShutdownTime.Hour).AddMinutes(shutdown.ShutdownTime.Minute))
                 .SetRecurrence(shutdown.Recurrence)
                 .SetRecurrenceEndDate(shutdown.RecurrenceEndDate)
-                .SetEnabled(true)
+                .SetEnabled(shutdown.IsEnabled)
                 .Build();
             _shutdownScheduler.AddTask(task);
         }

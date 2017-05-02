@@ -59,7 +59,7 @@ namespace TaskScheduler.Web.Models.Recording
         public DateTime RecurrenceEndDate { get; set; } = DateTime.Today.AddMonths(2);
 
         [DisplayName("Enabled")]
-        public bool IsEnabled { get; set; }
+        public bool IsEnabled { get; set; } = true;
 
         // Only used for validating Edit model
         public string PreviousTitle { get; set; } = "";

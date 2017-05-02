@@ -36,7 +36,7 @@ namespace TaskScheduler.Web.Models.Shutdown
         public DateTime RecurrenceEndDate { get; set; } = DateTime.Today.AddMonths(2);
 
         [DisplayName("Enabled")]
-        public bool IsEnabled { get; set; }
+        public bool IsEnabled { get; set; } = true;
 
         public bool Selected { get; set; }
     }
