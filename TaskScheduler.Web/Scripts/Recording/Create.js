@@ -1,4 +1,8 @@
-﻿$("#StartDate").on('input', function () {
+﻿$(document).ready(function () {
+    setDuration();
+});
+
+$("#StartDate").on('input', function () {
     var startTime = $("#StartTime").val();
     var endTime = $("#EndTime").val();
     if (Date.parse('01/01/2011 ' + endTime + ':00') < Date.parse('01/01/2011 ' + startTime + ':00')) {
@@ -6,6 +10,12 @@
     } else {
         $("#EndDate").val($("#StartDate").val());
     }
+
+    setDuration();
+});
+
+$("#EndDate").on('input', function () {
+    setDuration();
 });
 
 $("#StartTime").on('input', function () {
@@ -22,6 +32,8 @@ $("#StartTime").on('input', function () {
 
     $("#EndDate").val(formatDate(endDateTime));
     $("#EndTime").val(formatTime(endDateTime));
+
+    setDuration();
 });
 
 $("#EndTime").on('input', function () {
@@ -36,6 +48,8 @@ function setEndDate() {
     } else {
         $("#EndDate").val($("#StartDate").val());
     }
+
+    setDuration();
 }
 
 function dateAddDays(startDate, daysToAdd) {
@@ -54,6 +68,52 @@ function formatTime(date) {
     return [zeroPad(date.getHours(), 10),
             zeroPad(date.getMinutes(), 10)]
             .join(':');
+}
+
+function buildDateTime(dateString, hours, minutes) {
+    var date = new Date(dateString);
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    return date;
+}
+
+function getStartDateTime() {
+    var startDate = $("#StartDate").val();
+    var startTime = $("#StartTime").val().split(":");
+    return buildDateTime(startDate, startTime[0], startTime[1]);
+}
+
+function getEndDateTime() {
+    var endDate = $("#EndDate").val();
+    var endTime = $("#EndTime").val().split(":");
+    return buildDateTime(endDate, endTime[0], endTime[1]);
+}
+
+function calculateDuration() {
+    var minutes = (getEndDateTime() - getStartDateTime()) / 1000 / 60;
+    var hours = Math.floor(minutes / 60);
+    var days = Math.floor(hours / 24);
+
+    if (isNaN(minutes)) {
+        return "Invalid start or end date"
+    }
+
+    if (days === 0 && hours === 0) {
+        return minutes + " minute" + (minutes !== 1 ? "s" : "");
+    }
+    
+    if (days === 0) {
+        minutes = minutes - (hours * 60);
+        return hours + " hour" + (hours !== 1 ? "s " : " ") + minutes + " minute" + (minutes !== 1 ? "s" : "");
+    }
+    
+    hours = hours - (days * 24);
+    minutes = minutes - (days * 24 * 60) - (hours * 60);
+    return days + " day" + (days !== 1 ? "s " : " ") + hours + " hour" + (hours !== 1 ? "s " : " ") + minutes + " minute" + (minutes !== 1 ? "s" : "");
+}
+
+function setDuration() {
+    $("#duration").text(calculateDuration());
 }
 
 //function to add a leading zero to a number of shorter length than the specified units
