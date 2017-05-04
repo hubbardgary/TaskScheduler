@@ -27,6 +27,12 @@ namespace TaskScheduler.Core.TaskTypes.Shutdown.Builder
             return this;
         }
 
+        public ShutdownTaskBuilder SetPreviousName(string previousName)
+        {
+            _task.PreviousName = previousName;
+            return this;
+        }
+
         public ShutdownTaskBuilder SetShutdownDateTime(DateTime date)
         {
             _task.ShutdownDateTime = date;

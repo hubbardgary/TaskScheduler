@@ -6,6 +6,7 @@ using TaskScheduler.Core.Models.Shutdown;
 using TaskScheduler.Core.TaskTypes.Shutdown;
 using TaskScheduler.Core.TaskTypes.Shutdown.Builder;
 using TaskScheduler.Web.Extensions;
+using TaskScheduler.Web.Models.Recording;
 using TaskScheduler.Web.Models.Shutdown;
 using TaskScheduler.Web.Services.Interfaces;
 using static System.Web.HttpUtility;
@@ -25,6 +26,7 @@ namespace TaskScheduler.Web.Services
         {
             var task = new ShutdownTaskBuilder()
                 .SetName(shutdown.Name)
+                .SetPreviousName(shutdown.PreviousName)
                 .SetShutdownDateTime(shutdown.ShutdownDate.AddHours(shutdown.ShutdownTime.Hour).AddMinutes(shutdown.ShutdownTime.Minute))
                 .SetRecurrence(shutdown.Recurrence)
                 .SetRecurrenceEndDate(shutdown.RecurrenceEndDate)
@@ -69,6 +71,35 @@ namespace TaskScheduler.Web.Services
         {
             _shutdownScheduler.DeleteTask(shutdown.PreviousName);
             AddShutdown(shutdown);
+        }
+
+        public void CreateShutdownFromRecording(RecordingViewModel recording)
+        {
+            var shutdownTask = BuildLinkedShutdownTask(recording);
+            _shutdownScheduler.AddTask(shutdownTask);
+        }
+
+        public void DeleteLinkedShutdown(RecordingViewModel recording)
+        {
+            _shutdownScheduler.DeleteTask($"{recording.Title}#recording");
+        }
+
+        public void UpdateLinkedShutdown(RecordingViewModel recording)
+        {
+            var shutdownTask = BuildLinkedShutdownTask(recording);
+            _shutdownScheduler.UpdateTask(shutdownTask);
+        }
+
+        private ShutdownTask BuildLinkedShutdownTask(RecordingViewModel recording)
+        {
+            return new ShutdownTaskBuilder()
+                .SetName($"{recording.Title}#recording")
+                .SetPreviousName($"{recording.PreviousTitle}#recording")
+                .SetShutdownDateTime(recording.EndDate.AddHours(recording.EndTime.Hour).AddMinutes(recording.EndTime.Minute).AddMinutes(6))
+                .SetRecurrence(recording.Recurrence)
+                .SetRecurrenceEndDate(recording.RecurrenceEndDate)
+                .SetEnabled(recording.IsEnabled)
+                .Build();
         }
     }
 }

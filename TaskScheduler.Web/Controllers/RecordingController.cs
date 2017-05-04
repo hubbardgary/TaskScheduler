@@ -10,10 +10,12 @@ namespace TaskScheduler.Web.Controllers
     public class RecordingController : Controller
     {
         private readonly IRecordingServices _recordingServices;
+        private readonly IShutdownServices _shutdownServices;
 
-        public RecordingController(IRecordingServices recordingServices)
+        public RecordingController(IRecordingServices recordingServices, IShutdownServices shutdownServices)
         {
             _recordingServices = recordingServices;
+            _shutdownServices = shutdownServices;
         }
 
         public ActionResult Index(int? page, string sortOrder = "Title")
@@ -45,6 +47,12 @@ namespace TaskScheduler.Web.Controllers
             if (ModelState.IsValid)
             {
                 _recordingServices.AddRecording(recording);
+
+                if (recording.CreateShutdownTask)
+                {
+                    _shutdownServices.CreateShutdownFromRecording(recording);
+                }
+
                 return RedirectToAction("Index");
             }
             return View(recording);
@@ -62,6 +70,7 @@ namespace TaskScheduler.Web.Controllers
             if (ModelState.IsValid)
             {
                 _recordingServices.UpdateRecording(recording);
+                _shutdownServices.UpdateLinkedShutdown(recording);
                 return RedirectToAction("Index");
             }
             return View(recording);
@@ -73,7 +82,10 @@ namespace TaskScheduler.Web.Controllers
             foreach (var recording in recordings)
             {
                 if (recording.Selected)
+                {
                     _recordingServices.DeleteRecording(recording);
+                    _shutdownServices.DeleteLinkedShutdown(recording);
+                }
             }
             return RedirectToAction("Index", new { page = page });
         }

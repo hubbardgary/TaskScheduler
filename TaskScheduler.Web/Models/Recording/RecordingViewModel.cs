@@ -68,6 +68,9 @@ namespace TaskScheduler.Web.Models.Recording
 
         public IEnumerable<ChannelModel> Channels;
 
+        [DisplayName("Create Shutdown Task")]
+        public bool CreateShutdownTask { get; set; }
+
         public RecordingViewModel()
         {
             Channels = Core.Helpers.ChannelLookup.AllChannels.Select(c => new ChannelModel { Id = c.Key, Name = c.Value }).ToList();

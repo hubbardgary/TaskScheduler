@@ -29,6 +29,12 @@ namespace TaskScheduler.Core.TaskTypes.Shutdown.Builder
             return this;
         }
 
+        public BaseTaskBuilder SetPreviousName(string previousName)
+        {
+            _task.Model.PreviousName = previousName;
+            return this;
+        }
+
         public BaseTaskBuilder SetStartDateTime(DateTime start)
         {
             _task.Model.StartDate = start;

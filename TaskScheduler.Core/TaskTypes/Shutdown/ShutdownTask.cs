@@ -26,6 +26,7 @@ namespace TaskScheduler.Core.TaskTypes.Shutdown
             var builder = new BaseTaskBuilder();
             return builder
                 .SetName(Model.Name)
+                .SetPreviousName(Model.PreviousName)
                 .SetStartDateTime(Model.ShutdownDateTime)
                 .SetEnabled(Model.Enabled)
                 .SetRecurrence(Model.Recurrence)

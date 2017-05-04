@@ -69,6 +69,13 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.CreateShutdownTask, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.CreateShutdownTask)
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.IsRecurring, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-1">
                 @Html.EditorFor(model => model.IsRecurring)
