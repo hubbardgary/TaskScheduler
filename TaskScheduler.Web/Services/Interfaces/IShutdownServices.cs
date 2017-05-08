@@ -15,5 +15,6 @@ namespace TaskScheduler.Web.Services.Interfaces
         void CreateShutdownFromRecording(RecordingViewModel recording);
         void DeleteLinkedShutdown(RecordingViewModel recording);
         void UpdateLinkedShutdown(RecordingViewModel recording);
+        bool LinkedShutdownExists(string recordingName);
     }
 }

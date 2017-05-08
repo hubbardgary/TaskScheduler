@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TaskScheduler.Core.Interfaces;
 using TaskScheduler.Core.Models.Shutdown;
@@ -86,8 +85,16 @@ namespace TaskScheduler.Web.Services
 
         public void UpdateLinkedShutdown(RecordingViewModel recording)
         {
-            var shutdownTask = BuildLinkedShutdownTask(recording);
-            _shutdownScheduler.UpdateTask(shutdownTask);
+            if (LinkedShutdownExists(recording.PreviousTitle))
+            {
+                var shutdownTask = BuildLinkedShutdownTask(recording);
+                _shutdownScheduler.UpdateTask(shutdownTask);
+            }
+        }
+
+        public bool LinkedShutdownExists(string recordingName)
+        {
+            return _shutdownScheduler.GetTask($"{recordingName}#recording") != null;
         }
 
         private ShutdownTask BuildLinkedShutdownTask(RecordingViewModel recording)

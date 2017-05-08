@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using TaskScheduler.Web.Models.Enums;
 using TaskScheduler.Web.Models.Shutdown;
 using TaskScheduler.Web.Services.Interfaces;
 
@@ -16,7 +17,7 @@ namespace TaskScheduler.Web.Controllers
             _shutdownServices = shutdownServices;
         }
 
-        public ActionResult Index(int? page, string sortOrder = "Name")
+        public ActionResult Index(int? page, string sortOrder = "Name", ActionOutcome actionOutcome = ActionOutcome.None)
         {
             var shutdowns = _shutdownServices.GetSortedShutdowns(sortOrder);
 
@@ -24,13 +25,20 @@ namespace TaskScheduler.Web.Controllers
             int pageSize = 10;
             int pageNumber = (page ?? 1);
 
-            if (shutdowns.Count() > pageSize * (pageNumber - 1))
-            {
-                return View(shutdowns.ToPagedList(pageNumber, pageSize));
-            }
+            var shutdownsPagedList = shutdowns.Count() > pageSize * (pageNumber - 1) ? shutdowns.ToPagedList(pageNumber, pageSize) : shutdowns.ToPagedList(1, pageSize);
 
-            // Default to Page 1 if the requested page wouldn't have any rows
-            return View(shutdowns.ToPagedList(1, pageSize));
+            return View(new ShutdownIndexViewModel
+            {
+                ActionOutcome = actionOutcome,
+                Shutdowns = shutdownsPagedList
+            });
+        }
+
+        [HttpPost]
+        public ActionResult Index(int page, List<ShutdownViewModel> shutdowns)
+        {
+            shutdowns.Where(s => s.Selected).ToList().ForEach(s => _shutdownServices.DeleteShutdown(s));
+            return RedirectToAction("Index", new { page = page, actionOutcome = ActionOutcome.DeleteSuccess });
         }
 
         public ActionResult Create()
@@ -45,7 +53,7 @@ namespace TaskScheduler.Web.Controllers
             if (ModelState.IsValid)
             {
                 _shutdownServices.AddShutdown(shutdown);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { actionOutcome = ActionOutcome.CreateSuccess });
             }
             return View(shutdown);
         }
@@ -62,20 +70,9 @@ namespace TaskScheduler.Web.Controllers
             if (ModelState.IsValid)
             {
                 _shutdownServices.UpdateShutdown(shutdown);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { actionOutcome = ActionOutcome.EditSuccess });
             }
             return View(shutdown);
-        }
-
-        [HttpPost]
-        public ActionResult Index(int page, List<ShutdownViewModel> shutdowns)
-        {
-            foreach (var shutdown in shutdowns)
-            {
-                if (shutdown.Selected)
-                    _shutdownServices.DeleteShutdown(shutdown);
-            }
-            return RedirectToAction("Index", new { page = page });
         }
     }
 }

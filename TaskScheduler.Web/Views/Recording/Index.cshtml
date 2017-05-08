@@ -1,20 +1,50 @@
 ﻿@using PagedList.Mvc;
 @using TaskScheduler.Web.Models.Recording;
-@model PagedList.IPagedList<RecordingViewModel>
+@using TaskScheduler.Web.Models.Enums;
+@model RecordingIndexViewModel
     
 @Styles.Render("~/Content/PagedList.css")
 
 @{
     ViewBag.Title = "Scheduled Recordings";
-    ViewBag.CurrentPage = Model.PageNumber;
+    ViewBag.CurrentPage = Model.Recordings.PageNumber;
 }
 
 <h2>Scheduled Recordings</h2>
 
+@if (Model.ActionOutcome != ActionOutcome.None)
+{
+    <div class="alert alert-success alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        Recording
+        @switch (Model.ActionOutcome)
+        {
+            case ActionOutcome.CreateSuccess:
+                @:created
+                break;
+            case ActionOutcome.CreateWithLinkedShutdownSuccess:
+                @:and its linked shutdown created
+                break;
+            case ActionOutcome.EditSuccess:
+                @:updated
+                break;
+            case ActionOutcome.EditWithLinkedShutdownSuccess:
+                @:and its linked shutdown updated
+                break;
+            case ActionOutcome.DeleteSuccess:
+                @:deleted
+                break;
+            case ActionOutcome.DeleteWithLinkedShutdownSuccess:
+                @:and its linked shutdown deleted
+                break;
+        }
+        successfully.
+    </div>
+}
+
 @using (Html.BeginForm("Index", "Recording", new { page = ViewBag.CurrentPage }))
 {
     <p>
-        <!-- @Html.ActionLink("Create New", "Create") -->
         <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Recording")';return false;">Create New</button>
         <button id="editSelected" class="btn btn-primary disabled" onclick="location.href = editUrl.replace('dummyId', $(':checkbox[name*=\'Selected\']:checked:first')[0].id); return false;">Edit Selected</button>
         <button id="deleteSelected" class="btn btn-danger disabled" data-toggle="modal" data-target=".bs-confirm-delete-modal">Delete Selected</button>
@@ -51,40 +81,40 @@
         @* Need to use zero-based index to ensure in-built model-binding materialises models on post
             Also note the 'HiddenFor' elements that ensure the corresponding items get posted.
             This is necessary so MVC can match up the ids and other attributes. *@
-        @for (int i = 0; i < Model.Count; i++)
+        @for (int i = 0; i < Model.Recordings.Count; i++)
         {
             <tr>
                 <td>
-                    @Html.CheckBoxFor(modelItem => Model[i].Selected, new { id = Model[i].Title })
-                    @Html.HiddenFor(modelItem => Model[i].Title)
+                    @Html.CheckBoxFor(modelItem => Model.Recordings[i].Selected, new { id = Model.Recordings[i].Title })
+                    @Html.HiddenFor(modelItem => Model.Recordings[i].Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].Title)
-                    @Html.HiddenFor(modelItem => Model[i].Title)
+                    @Html.DisplayFor(modelItem => Model.Recordings[i].Title)
+                    @Html.HiddenFor(modelItem => Model.Recordings[i].Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].ChannelName)
-                    @Html.HiddenFor(modelItem => Model[i].ChannelName)
+                    @Html.DisplayFor(modelItem => Model.Recordings[i].ChannelName)
+                    @Html.HiddenFor(modelItem => Model.Recordings[i].ChannelName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].StartDate)
-                    @Html.HiddenFor(modelItem => Model[i].StartDate)
+                    @Html.DisplayFor(modelItem => Model.Recordings[i].StartDate)
+                    @Html.HiddenFor(modelItem => Model.Recordings[i].StartDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].StartTime)
-                    @Html.HiddenFor(modelItem => Model[i].StartTime)
+                    @Html.DisplayFor(modelItem => Model.Recordings[i].StartTime)
+                    @Html.HiddenFor(modelItem => Model.Recordings[i].StartTime)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].EndTime)
-                    @Html.HiddenFor(modelItem => Model[i].EndTime)
+                    @Html.DisplayFor(modelItem => Model.Recordings[i].EndTime)
+                    @Html.HiddenFor(modelItem => Model.Recordings[i].EndTime)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].IsEnabled)
-                    @Html.HiddenFor(modelItem => Model[i].IsEnabled)
+                    @Html.DisplayFor(modelItem => Model.Recordings[i].IsEnabled)
+                    @Html.HiddenFor(modelItem => Model.Recordings[i].IsEnabled)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].IsRecurring)
-                    @Html.HiddenFor(modelItem => Model[i].IsRecurring)
+                    @Html.DisplayFor(modelItem => Model.Recordings[i].IsRecurring)
+                    @Html.HiddenFor(modelItem => Model.Recordings[i].IsRecurring)
                 </td>
             </tr>
         }
@@ -92,8 +122,8 @@
     </table>
     <br />
     <p>
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        Page @(Model.Recordings.PageCount < Model.Recordings.PageNumber ? 0 : Model.Recordings.PageNumber) of @Model.Recordings.PageCount
+        @Html.PagedListPager(Model.Recordings, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     </p>
 
     <!-- Modal dialog to confirm deletion -->

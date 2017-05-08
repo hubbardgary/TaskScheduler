@@ -1,20 +1,41 @@
 ﻿@using PagedList.Mvc;
 @using TaskScheduler.Web.Models.Shutdown;
-@model PagedList.IPagedList<ShutdownViewModel>
+@using TaskScheduler.Web.Models.Enums;
+@model ShutdownIndexViewModel
 
 @Styles.Render("~/Content/PagedList.css")
 
 @{
     ViewBag.Title = "Scheduled Shutdowns";
-    ViewBag.CurrentPage = Model.PageNumber;
+    ViewBag.CurrentPage = Model.Shutdowns.PageNumber;
 }
 
 <h2>Scheduled Shutdowns</h2>
 
+@if (Model.ActionOutcome != ActionOutcome.None)
+{
+    <div class="alert alert-success alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        Shutdown
+        @switch (Model.ActionOutcome)
+        {
+            case ActionOutcome.CreateSuccess:
+                @:created
+                break;
+            case ActionOutcome.EditSuccess:
+                @:updated
+                break;
+            case ActionOutcome.DeleteSuccess:
+                @:deleted
+                break;
+        }
+        successfully.
+    </div>
+}
+
 @using (Html.BeginForm("Index", "Shutdown", new { page = ViewBag.CurrentPage }))
 {
     <p>
-        <!-- @Html.ActionLink("Create New", "Create") -->
         <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Shutdown")';return false;">Create New</button>
         <button id="editSelected" class="btn btn-primary disabled" onclick="location.href = editUrl.replace('dummyId', $(':checkbox[name*=\'Selected\']:checked:first')[0].id); return false;">Edit Selected</button>
         <button id="deleteSelected" class="btn btn-danger disabled" data-toggle="modal" data-target=".bs-confirm-delete-modal">Delete Selected</button>
@@ -45,32 +66,32 @@
         @* Need to use zero-based index to ensure in-built model-binding materialises models on post
             Also note the 'HiddenFor' elements that ensure the corresponding items get posted.
             This is necessary so MVC can match up the ids and other attributes. *@
-        @for (int i = 0; i < Model.Count; i++)
+        @for (int i = 0; i < Model.Shutdowns.Count; i++)
         {
             <tr>
                 <td>
-                    @Html.CheckBoxFor(modelItem => Model[i].Selected, new { id = Model[i].Name })
-                    @Html.HiddenFor(modelItem => Model[i].Selected)
+                    @Html.CheckBoxFor(modelItem => Model.Shutdowns[i].Selected, new { id = Model.Shutdowns[i].Name })
+                    @Html.HiddenFor(modelItem => Model.Shutdowns[i].Selected)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].Name)
-                    @Html.HiddenFor(modelItem => Model[i].Name)
+                    @Html.DisplayFor(modelItem => Model.Shutdowns[i].Name)
+                    @Html.HiddenFor(modelItem => Model.Shutdowns[i].Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].ShutdownDate)
-                    @Html.HiddenFor(modelItem => Model[i].ShutdownDate)
+                    @Html.DisplayFor(modelItem => Model.Shutdowns[i].ShutdownDate)
+                    @Html.HiddenFor(modelItem => Model.Shutdowns[i].ShutdownDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].ShutdownTime)
-                    @Html.HiddenFor(modelItem => Model[i].ShutdownTime)
+                    @Html.DisplayFor(modelItem => Model.Shutdowns[i].ShutdownTime)
+                    @Html.HiddenFor(modelItem => Model.Shutdowns[i].ShutdownTime)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].IsEnabled)
-                    @Html.HiddenFor(modelItem => Model[i].IsEnabled)
+                    @Html.DisplayFor(modelItem => Model.Shutdowns[i].IsEnabled)
+                    @Html.HiddenFor(modelItem => Model.Shutdowns[i].IsEnabled)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model[i].IsRecurring)
-                    @Html.HiddenFor(modelItem => Model[i].IsRecurring)
+                    @Html.DisplayFor(modelItem => Model.Shutdowns[i].IsRecurring)
+                    @Html.HiddenFor(modelItem => Model.Shutdowns[i].IsRecurring)
                 </td>
             </tr>
         }
@@ -78,8 +99,8 @@
     </table>
     <br />
     <p>
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        Page @(Model.Shutdowns.PageCount < Model.Shutdowns.PageNumber ? 0 : Model.Shutdowns.PageNumber) of @Model.Shutdowns.PageCount
+        @Html.PagedListPager(Model.Shutdowns, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     </p>
 
     <!-- Modal dialog to confirm deletion -->

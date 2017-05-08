@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using TaskScheduler.Web.Models.Enums;
 using TaskScheduler.Web.Models.Recording;
 using TaskScheduler.Web.Services.Interfaces;
 
@@ -18,23 +19,42 @@ namespace TaskScheduler.Web.Controllers
             _shutdownServices = shutdownServices;
         }
 
-        public ActionResult Index(int? page, string sortOrder = "Title")
+        public ActionResult Index(int? page, string sortOrder = "Title", ActionOutcome actionOutcome = ActionOutcome.None)
         {
             var recordings = _recordingServices.GetSortedRecording(sortOrder);
             
             ViewBag.CurrentSort = sortOrder;
             int pageSize = 10;
             int pageNumber = (page ?? 1);
+            
+            var recordingsPagedList = recordings.Count() > pageSize * (pageNumber - 1) ? recordings.ToPagedList(pageNumber, pageSize) : recordings.ToPagedList(1, pageSize);
 
-            if (recordings.Count() > pageSize * (pageNumber - 1))
+            return View(new RecordingIndexViewModel
             {
-                return View(recordings.ToPagedList(pageNumber, pageSize));
-            }
-
-            // Default to Page 1 if the requested page wouldn't have any rows
-            return View(recordings.ToPagedList(1, pageSize));
+                ActionOutcome = actionOutcome,
+                Recordings = recordingsPagedList
+            });
         }
-        
+
+        [HttpPost]
+        public ActionResult Index(int page, List<RecordingViewModel> recordings)
+        {
+            var linkedShutdownRemoved = false;
+            recordings.Where(r => r.Selected).ToList().ForEach(r =>
+            {
+                _recordingServices.DeleteRecording(r);
+
+                if (_shutdownServices.LinkedShutdownExists(r.Title))
+                {
+                    _shutdownServices.DeleteLinkedShutdown(r);
+                    linkedShutdownRemoved = true;
+                }
+            });
+
+            var actionOutcome = linkedShutdownRemoved ? ActionOutcome.DeleteWithLinkedShutdownSuccess : ActionOutcome.DeleteSuccess;
+            return RedirectToAction("Index", new { page = page, actionOutcome = actionOutcome });
+        }
+
         public ActionResult Create()
         {
             var newRecording = new RecordingViewModel();
@@ -53,7 +73,7 @@ namespace TaskScheduler.Web.Controllers
                     _shutdownServices.CreateShutdownFromRecording(recording);
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { actionOutcome = recording.CreateShutdownTask ? ActionOutcome.CreateWithLinkedShutdownSuccess : ActionOutcome.CreateSuccess });
             }
             return View(recording);
         }
@@ -69,25 +89,17 @@ namespace TaskScheduler.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var linkedShutdownExists = _shutdownServices.LinkedShutdownExists(recording.PreviousTitle);
                 _recordingServices.UpdateRecording(recording);
-                _shutdownServices.UpdateLinkedShutdown(recording);
-                return RedirectToAction("Index");
+                
+                if (linkedShutdownExists)
+                {
+                    _shutdownServices.UpdateLinkedShutdown(recording);
+                }
+                
+                return RedirectToAction("Index", new { actionOutcome = linkedShutdownExists ? ActionOutcome.EditWithLinkedShutdownSuccess : ActionOutcome.EditSuccess });
             }
             return View(recording);
-        }
-
-        [HttpPost]
-        public ActionResult Index(int page, List<RecordingViewModel> recordings)
-        {
-            foreach (var recording in recordings)
-            {
-                if (recording.Selected)
-                {
-                    _recordingServices.DeleteRecording(recording);
-                    _shutdownServices.DeleteLinkedShutdown(recording);
-                }
-            }
-            return RedirectToAction("Index", new { page = page });
         }
 
         public ActionResult ValidateUniqueShowTitle(RecordingViewModel recording)
