@@ -1,5 +1,5 @@
 ﻿using TaskScheduler.Core.TaskTypes.Shutdown;
-using TaskScheduler.Shared.Enums;
+using TaskScheduler.Core.Enums;
 using TaskScheduler.Web.Models.Shutdown;
 
 namespace TaskScheduler.Web.Extensions

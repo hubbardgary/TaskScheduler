@@ -1,6 +1,6 @@
 ﻿using System;
 using TaskScheduler.Core.TaskTypes.Base;
-using TaskScheduler.Shared.Enums;
+using TaskScheduler.Core.Enums;
 
 namespace TaskScheduler.Core.TaskTypes.Recording.Builder
 {

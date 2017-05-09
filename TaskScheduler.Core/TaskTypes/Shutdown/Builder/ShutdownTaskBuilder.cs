@@ -1,6 +1,6 @@
 ﻿using System;
 using TaskScheduler.Core.Models.Shutdown;
-using TaskScheduler.Shared.Enums;
+using TaskScheduler.Core.Enums;
 
 namespace TaskScheduler.Core.TaskTypes.Shutdown.Builder
 {
@@ -39,15 +39,18 @@ namespace TaskScheduler.Core.TaskTypes.Shutdown.Builder
             return this;
         }
 
-        public ShutdownTaskBuilder SetRecurrence(RecurrenceType recurrence)
+        public ShutdownTaskBuilder SetRecurrence(RecurrenceType recurrence, DateTime recurrenceEndDate)
         {
             _task.Recurrence = recurrence;
-            return this;
-        }
 
-        public ShutdownTaskBuilder SetRecurrenceEndDate(DateTime date)
-        {
-            _task.RecurrenceEndDate = date;
+            if (recurrence == RecurrenceType.OneOff)
+            {
+                _task.RecurrenceEndDate = DateTime.Today.AddMonths(2);
+            }
+            else
+            {
+                _task.RecurrenceEndDate = recurrenceEndDate;    
+            }
             return this;
         }
 

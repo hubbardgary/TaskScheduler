@@ -3,7 +3,7 @@ using System;
 using TaskScheduler.Core.Extensions;
 using TaskScheduler.Core.Models.Base;
 using TaskScheduler.Core.Interfaces;
-using TaskScheduler.Shared.Enums;
+using TaskScheduler.Core.Enums;
 
 namespace TaskScheduler.Core.Services
 {

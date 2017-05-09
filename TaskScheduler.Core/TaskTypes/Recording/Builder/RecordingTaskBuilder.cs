@@ -1,6 +1,6 @@
 ﻿using System;
 using TaskScheduler.Core.Models.Recording;
-using TaskScheduler.Shared.Enums;
+using TaskScheduler.Core.Enums;
 
 namespace TaskScheduler.Core.TaskTypes.Recording.Builder
 {
@@ -90,6 +90,7 @@ namespace TaskScheduler.Core.TaskTypes.Recording.Builder
             if (recurrence == RecurrenceType.OneOff)
             {
                 _task.IsRecurring = false;
+                _task.RecurrenceEndDate = DateTime.Today.AddMonths(2);
             }
             else
             {

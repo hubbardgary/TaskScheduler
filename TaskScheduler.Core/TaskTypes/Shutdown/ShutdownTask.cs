@@ -16,8 +16,7 @@ namespace TaskScheduler.Core.TaskTypes.Shutdown
                 .SetName(task.Model.Name)
                 .SetShutdownDateTime(task.Model.StartDate)
                 .SetEnabled(task.Model.IsEnabled)
-                .SetRecurrence(task.Model.Recurrence)
-                .SetRecurrenceEndDate(task.Model.RecurrenceEndDate)
+                .SetRecurrence(task.Model.Recurrence, task.Model.RecurrenceEndDate)
                 .Build();
         }
 
@@ -29,8 +28,7 @@ namespace TaskScheduler.Core.TaskTypes.Shutdown
                 .SetPreviousName(Model.PreviousName)
                 .SetStartDateTime(Model.ShutdownDateTime)
                 .SetEnabled(Model.Enabled)
-                .SetRecurrence(Model.Recurrence)
-                .SetRecurrenceEndDate(Model.RecurrenceEndDate)
+                .SetRecurrence(Model.Recurrence, Model.RecurrenceEndDate)
                 .Build();
         }
     }

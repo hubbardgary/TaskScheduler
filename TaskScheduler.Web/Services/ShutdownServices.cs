@@ -27,8 +27,7 @@ namespace TaskScheduler.Web.Services
                 .SetName(shutdown.Name)
                 .SetPreviousName(shutdown.PreviousName)
                 .SetShutdownDateTime(shutdown.ShutdownDate.AddHours(shutdown.ShutdownTime.Hour).AddMinutes(shutdown.ShutdownTime.Minute))
-                .SetRecurrence(shutdown.Recurrence)
-                .SetRecurrenceEndDate(shutdown.RecurrenceEndDate)
+                .SetRecurrence(shutdown.Recurrence, shutdown.RecurrenceEndDate)
                 .SetEnabled(shutdown.IsEnabled)
                 .Build();
             _shutdownScheduler.AddTask(task);
@@ -103,8 +102,7 @@ namespace TaskScheduler.Web.Services
                 .SetName($"{recording.Title}#recording")
                 .SetPreviousName($"{recording.PreviousTitle}#recording")
                 .SetShutdownDateTime(recording.EndDate.AddHours(recording.EndTime.Hour).AddMinutes(recording.EndTime.Minute).AddMinutes(6))
-                .SetRecurrence(recording.Recurrence)
-                .SetRecurrenceEndDate(recording.RecurrenceEndDate)
+                .SetRecurrence(recording.Recurrence, recording.RecurrenceEndDate)
                 .SetEnabled(recording.IsEnabled)
                 .Build();
         }

@@ -231,10 +231,6 @@
       <Project>{6458249E-269B-4E06-989E-9A15C7105371}</Project>
       <Name>TaskScheduler.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TaskScheduler.Shared\TaskScheduler.Shared.csproj">
-      <Project>{069C6083-4D0C-48DD-9184-37C5F51B69EA}</Project>
-      <Name>TaskScheduler.Shared</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

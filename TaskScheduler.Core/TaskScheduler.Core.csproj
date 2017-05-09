@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\RecurrenceType.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\Win32TaskExtensions.cs" />
     <Compile Include="TaskTypes\Recording\Helpers\ChannelLookup.cs" />
@@ -75,12 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TaskScheduler.Shared\TaskScheduler.Shared.csproj">
-      <Project>{069C6083-4D0C-48DD-9184-37C5F51B69EA}</Project>
-      <Name>TaskScheduler.Shared</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

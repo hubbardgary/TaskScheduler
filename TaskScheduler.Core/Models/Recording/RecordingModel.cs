@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TaskScheduler.Core.Interfaces;
-using TaskScheduler.Shared.Enums;
+using TaskScheduler.Core.Enums;
 
 namespace TaskScheduler.Core.Models.Recording
 {
