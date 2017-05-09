@@ -17,7 +17,8 @@ namespace TaskScheduler.Core.Services
 
             if (trigger.GetType() == typeof(WeeklyTrigger))
             {
-                trigger.EndBoundary = task.RecurrenceEndDate;
+                // End boundary is inclusive so should expire at the end of the day.
+                trigger.EndBoundary = task.RecurrenceEndDate.AddHours(23).AddMinutes(59).AddSeconds(59);
             }
 
             return trigger;
