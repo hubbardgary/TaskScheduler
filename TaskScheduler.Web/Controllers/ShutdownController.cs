@@ -74,5 +74,15 @@ namespace TaskScheduler.Web.Controllers
             }
             return View(shutdown);
         }
+
+        public ActionResult ValidateUniqueShutdownName(ShutdownViewModel shutdown)
+        {
+            if (shutdown.Name == shutdown.PreviousName)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(_shutdownServices.GetShutdown(shutdown.Name) == null, JsonRequestBehavior.AllowGet);
+        }
     }
 }

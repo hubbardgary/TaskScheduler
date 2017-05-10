@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using TaskScheduler.Core.Enums;
 
 namespace TaskScheduler.Web.Models.Shutdown
@@ -9,6 +10,7 @@ namespace TaskScheduler.Web.Models.Shutdown
     {
         [Required]
         [DisplayName("Name of task")]
+        [Remote("ValidateUniqueShutdownName", "Shutdown", AdditionalFields = "PreviousName", ErrorMessage = "A shutdown task with that name already exists")]
         public string Name { get; set; }
 
         public string PreviousName { get; set; }
