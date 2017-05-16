@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using TaskScheduler.Web.Extensions;
 using TaskScheduler.Web.Models.Enums;
 using TaskScheduler.Web.Models.Shutdown;
 using TaskScheduler.Web.Services.Interfaces;
@@ -11,10 +12,14 @@ namespace TaskScheduler.Web.Controllers
     public class ShutdownController : Controller
     {
         private readonly IShutdownServices _shutdownServices;
+        private readonly IRecordingServices _recordingServices;
 
-        public ShutdownController(IShutdownServices shutdownServices)
+        public ShutdownController(
+            IShutdownServices shutdownServices,
+            IRecordingServices recordingServices)
         {
             _shutdownServices = shutdownServices;
+            _recordingServices = recordingServices;
         }
 
         public ActionResult Index(int? page, string sortOrder = "Name", ActionOutcome actionOutcome = ActionOutcome.None)
@@ -83,6 +88,17 @@ namespace TaskScheduler.Web.Controllers
             }
 
             return Json(_shutdownServices.GetShutdown(shutdown.Name) == null, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult LinkedRecordingExists(string shutdownName)
+        {
+            var unlinkedRecording = _recordingServices.GetRecording(shutdownName.RemoveFromEnd("_linked"));
+            if(unlinkedRecording == null)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }

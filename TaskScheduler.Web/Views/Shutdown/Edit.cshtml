@@ -78,13 +78,38 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Shutdown")';">Back to List</button>
-                <input type="submit" value="Save Changes" class="btn btn-success" />
+                <input type="button" value="Save Changes" class="btn btn-success" onclick="checkAndSubmit()" />
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal dialog to confirm edit of linked shutdown -->
+    <div class="modal fade bs-confirm-edit-linked-modal" tabindex="-1" role="dialog" aria-labelledby="Confirm Edit" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">x</button>
+                    <h3 class="modal-title">Confirm Edit</h3>
+                </div>
+                <div class="modal-body">
+                    <p>It looks like you are changing the name of a scheduled shutdown that is linked to a recording task. If you do this, any future updates to the recording will not be reflected in the shutdown task.</p>
+                    <p>Are you sure you want to continue?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" value="Continue" class="btn btn-success" />
+                </div>
             </div>
         </div>
     </div>
 }
 
+<script language="JavaScript">
+    var linkedRecordingExistsEndpoint = '@Url.Action("LinkedRecordingExists", "Shutdown")';
+</script>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/Shared/Create.js")
+    @Scripts.Render("~/Scripts/Shutdown/Edit.js")
 }

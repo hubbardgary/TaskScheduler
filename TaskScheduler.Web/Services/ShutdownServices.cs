@@ -40,7 +40,14 @@ namespace TaskScheduler.Web.Services
 
         public ShutdownViewModel GetShutdown(string id)
         {
-            return _shutdownScheduler.GetTask(id)?.ToViewModel();
+            var matchingTask = _shutdownScheduler.GetTask(id)?.ToViewModel();
+            
+            if(matchingTask != null)
+            {
+                return matchingTask;
+            }
+
+            return null;
         }
 
         public IEnumerable<ShutdownViewModel> GetShutdowns()
@@ -79,7 +86,7 @@ namespace TaskScheduler.Web.Services
 
         public void DeleteLinkedShutdown(RecordingViewModel recording)
         {
-            _shutdownScheduler.DeleteTask($"{recording.Title}#recording");
+            _shutdownScheduler.DeleteTask($"{recording.Title}_linked");
         }
 
         public void UpdateLinkedShutdown(RecordingViewModel recording)
@@ -93,14 +100,14 @@ namespace TaskScheduler.Web.Services
 
         public bool LinkedShutdownExists(string recordingName)
         {
-            return _shutdownScheduler.GetTask($"{recordingName}#recording") != null;
+            return _shutdownScheduler.GetTask($"{recordingName}_linked") != null;
         }
 
         private ShutdownTask BuildLinkedShutdownTask(RecordingViewModel recording)
         {
             return new ShutdownTaskBuilder()
-                .SetName($"{recording.Title}#recording")
-                .SetPreviousName($"{recording.PreviousTitle}#recording")
+                .SetName($"{recording.Title}_linked")
+                .SetPreviousName($"{recording.PreviousTitle}_linked")
                 .SetShutdownDateTime(recording.EndDate.AddHours(recording.EndTime.Hour).AddMinutes(recording.EndTime.Minute).AddMinutes(6))
                 .SetRecurrence(recording.Recurrence, recording.RecurrenceEndDate)
                 .SetEnabled(recording.IsEnabled)

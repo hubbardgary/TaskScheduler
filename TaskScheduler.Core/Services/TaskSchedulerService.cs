@@ -93,7 +93,7 @@ namespace TaskScheduler.Core.Services
 
         public T GetTask(string taskName)
         {
-            var name = new Regex(taskName, RegexOptions.Compiled);
+            var name = new Regex($"^{Regex.Escape(taskName)}$", RegexOptions.Compiled);
 
             TaskFolder folder = _taskFolderService.GetFolder(TaskFolder);
             if (folder != null)
