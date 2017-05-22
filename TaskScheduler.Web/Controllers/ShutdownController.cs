@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using TaskScheduler.Core.Config;
 using TaskScheduler.Web.Extensions;
 using TaskScheduler.Web.Models.Enums;
 using TaskScheduler.Web.Models.Shutdown;
@@ -92,7 +93,7 @@ namespace TaskScheduler.Web.Controllers
 
         public ActionResult LinkedRecordingExists(string shutdownName)
         {
-            var unlinkedRecording = _recordingServices.GetRecording(shutdownName.RemoveFromEnd("_linked"));
+            var unlinkedRecording = _recordingServices.GetRecording(shutdownName.RemoveFromEnd(CustomTaskSettings.LinkedTaskSuffix));
             if(unlinkedRecording == null)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);

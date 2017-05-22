@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TaskScheduler.Core.Config;
 using TaskScheduler.Core.Interfaces;
 using TaskScheduler.Core.Models.Shutdown;
 using TaskScheduler.Core.TaskTypes.Shutdown;
@@ -86,7 +87,7 @@ namespace TaskScheduler.Web.Services
 
         public void DeleteLinkedShutdown(RecordingViewModel recording)
         {
-            _shutdownScheduler.DeleteTask($"{recording.Title}_linked");
+            _shutdownScheduler.DeleteTask($"{recording.Title}{CustomTaskSettings.LinkedTaskSuffix}");
         }
 
         public void UpdateLinkedShutdown(RecordingViewModel recording)
@@ -100,15 +101,19 @@ namespace TaskScheduler.Web.Services
 
         public bool LinkedShutdownExists(string recordingName)
         {
-            return _shutdownScheduler.GetTask($"{recordingName}_linked") != null;
+            return _shutdownScheduler.GetTask($"{recordingName}{CustomTaskSettings.LinkedTaskSuffix}") != null;
         }
 
         private ShutdownTask BuildLinkedShutdownTask(RecordingViewModel recording)
         {
             return new ShutdownTaskBuilder()
-                .SetName($"{recording.Title}_linked")
-                .SetPreviousName($"{recording.PreviousTitle}_linked")
-                .SetShutdownDateTime(recording.EndDate.AddHours(recording.EndTime.Hour).AddMinutes(recording.EndTime.Minute).AddMinutes(6))
+                .SetName($"{recording.Title}{CustomTaskSettings.LinkedTaskSuffix}")
+                .SetPreviousName($"{recording.PreviousTitle}{CustomTaskSettings.LinkedTaskSuffix}")
+                .SetShutdownDateTime(recording.EndDate
+                    .AddHours(recording.EndTime.Hour)
+                    .AddMinutes(recording.EndTime.Minute)
+                    .AddMinutes(CustomTaskSettings.RecordingPaddingInMinutes)
+                    .AddMinutes(CustomTaskSettings.LinkedShutdownDelayInMinutes))
                 .SetRecurrence(recording.Recurrence, recording.RecurrenceEndDate)
                 .SetEnabled(recording.IsEnabled)
                 .Build();

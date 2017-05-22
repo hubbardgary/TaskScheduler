@@ -44,8 +44,7 @@ namespace TaskScheduler.Core.Services
             {
                 _taskFolderService.CreateFolder(TaskFolder);
             }
-
-            // TODO: MOVE THESE TO CONFIG OR SPECIFIC TASK IMPLEMENTATIONS
+            
             taskDefinition.Settings.DisallowStartIfOnBatteries = false;
             taskDefinition.Settings.StopIfGoingOnBatteries = false;
             taskDefinition.Settings.Enabled = task.Model.IsEnabled;

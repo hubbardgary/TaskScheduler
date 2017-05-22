@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\CustomTaskSettings.cs" />
     <Compile Include="Enums\RecurrenceType.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\Win32TaskExtensions.cs" />
@@ -61,7 +62,6 @@
     <Compile Include="Services\ShutdownScheduler.cs" />
     <Compile Include="TaskTypes\Base\BaseTask.cs" />
     <Compile Include="TaskTypes\Recording\Builder\BaseTaskBuilder.cs" />
-    <Compile Include="TaskTypes\Recording\Constants.cs" />
     <Compile Include="TaskTypes\Recording\Extensions\RecordingBaseTaskExtensions.cs" />
     <Compile Include="TaskTypes\Recording\RecordingTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

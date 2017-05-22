@@ -10,7 +10,7 @@ function checkAndSubmit() {
     var previousName = $('#PreviousName').val();
     var newName = $('#Name').val();
 
-    if (newName != previousName && endsWith(previousName, '_linked')) {
+    if (newName != previousName && endsWith(previousName, linkedTaskSuffix)) {
         $.ajax({
             type:  "GET",
             url: linkedRecordingExistsEndpoint,

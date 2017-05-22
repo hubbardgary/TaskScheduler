@@ -1,6 +1,7 @@
 ﻿using System;
 using TaskScheduler.Core.Models.Recording;
 using TaskScheduler.Core.Enums;
+using TaskScheduler.Core.Config;
 
 namespace TaskScheduler.Core.TaskTypes.Recording.Builder
 {
@@ -36,28 +37,28 @@ namespace TaskScheduler.Core.TaskTypes.Recording.Builder
         public RecordingTaskBuilder SetProgrammeStartTime(DateTime start)
         {
             _task.ProgrammeStart = start;
-            _task.RecordingStart = start.AddMinutes(-Constants.TimeBufferInMinutes);
+            _task.RecordingStart = start.AddMinutes(-CustomTaskSettings.RecordingPaddingInMinutes);
             return this;
         }
 
         public RecordingTaskBuilder SetProgrammeEndTime(DateTime end)
         {
             _task.ProgrammeEnd = end;
-            _task.RecordingEnd = end.AddMinutes(Constants.TimeBufferInMinutes);
+            _task.RecordingEnd = end.AddMinutes(CustomTaskSettings.RecordingPaddingInMinutes);
             return this;
         }
 
         public RecordingTaskBuilder SetRecordingStartTime(DateTime start)
         {
             _task.RecordingStart = start;
-            _task.ProgrammeStart = start.AddMinutes(Constants.TimeBufferInMinutes);
+            _task.ProgrammeStart = start.AddMinutes(CustomTaskSettings.RecordingPaddingInMinutes);
             return this;
         }
 
         public RecordingTaskBuilder SetRecordingEndTime(DateTime end)
         {
             _task.RecordingEnd = end;
-            _task.ProgrammeEnd = end.AddMinutes(-Constants.TimeBufferInMinutes);
+            _task.ProgrammeEnd = end.AddMinutes(-CustomTaskSettings.RecordingPaddingInMinutes);
             return this;
         }
 
