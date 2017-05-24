@@ -1,9 +1,6 @@
 ﻿using Microsoft.Win32.TaskScheduler;
-using System;
-using TaskScheduler.Core.Extensions;
-using TaskScheduler.Core.Models.Base;
 using TaskScheduler.Core.Interfaces;
-using TaskScheduler.Core.Enums;
+using TaskScheduler.Core.Models.Base;
 
 namespace TaskScheduler.Core.Services
 {
@@ -11,7 +8,7 @@ namespace TaskScheduler.Core.Services
     {
         public Trigger BuildTrigger(BaseTaskModel task)
         {
-            var trigger = TriggerFactory(task.StartDate, task.Recurrence);
+            var trigger = TriggerFactory.GetTrigger(task.StartDate, task.Recurrence);
             trigger.StartBoundary = task.StartDate;
             trigger.Enabled = true;
 
@@ -22,28 +19,6 @@ namespace TaskScheduler.Core.Services
             }
 
             return trigger;
-        }
-
-        private Trigger TriggerFactory(DateTime triggerDate, RecurrenceType recurrence)
-        {
-            switch (recurrence)
-            {
-                case RecurrenceType.Daily:
-                    return new WeeklyTrigger
-                    {
-                        WeeksInterval = 1,
-                        DaysOfWeek = DaysOfTheWeek.AllDays
-                    };
-                case RecurrenceType.Weekly:
-                    return new WeeklyTrigger
-                    {
-                        WeeksInterval = 1,
-                        DaysOfWeek = triggerDate.ToTaskDay()
-                    };
-                default:
-                    // One off task
-                    return new TimeTrigger();
-            }
         }
     }
 }

@@ -49,6 +49,7 @@
     <Compile Include="Enums\RecurrenceType.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\Win32TaskExtensions.cs" />
+    <Compile Include="Services\TriggerFactory.cs" />
     <Compile Include="TaskTypes\Recording\Helpers\ChannelLookup.cs" />
     <Compile Include="Interfaces\ITask.cs" />
     <Compile Include="Interfaces\ITaskModel.cs" />
