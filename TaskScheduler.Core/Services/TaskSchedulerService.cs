@@ -59,9 +59,8 @@ namespace TaskScheduler.Core.Services
             _taskService.GetFolder(TaskFolder).RegisterTaskDefinition(taskName, td);
         }
 
-        private bool IsDupe(string name, string previousName = "")
+        private bool IsDupe(string name)
         {
-            // TODO: Need to deal with tasks being renamed.
             if (GetTask(name) != null)
                 return true;
 
