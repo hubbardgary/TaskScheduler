@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 using TaskScheduler.Core.Models.Recording;
 using TaskScheduler.Core.Enums;
+using TaskScheduler.Web.Helpers;
 
 namespace TaskScheduler.Web.Models.Recording
 {
@@ -70,6 +71,27 @@ namespace TaskScheduler.Web.Models.Recording
 
         [DisplayName("Create Shutdown Task")]
         public bool CreateShutdownTask { get; set; }
+
+        public string Duration
+        {
+            get
+            {
+                var timespan = new TimeSpan(EndTime.Ticks - StartTime.Ticks);
+                return $"Programme duration:<br />{Environment.NewLine}{timespan.TotalMinutes} minutes";
+            }
+        }
+
+        public string RecurrenceTooltipText
+        {
+            get
+            {
+                if(IsRecurring)
+                {
+                    return TaskUtils.GetRecurrenceTooltipText(Recurrence, StartDate, RecurrenceEndDate);
+                }
+                return string.Empty;
+            }
+        }
 
         public RecordingViewModel()
         {

@@ -63,16 +63,16 @@
             <th>
                 @Html.ActionLink("Start Date", "Index", new { page = ViewBag.CurrentPage, sortOrder = "StartDate" })
             </th>
-            <th>
+            <th class="table-cell-center">
                 @Html.ActionLink("Start Time", "Index", new { page = ViewBag.CurrentPage, sortOrder = "StartTime" })
             </th>
-            <th>
+            <th class="table-cell-center">
                 @Html.ActionLink("End Time", "Index", new { page = ViewBag.CurrentPage, sortOrder = "EndTime" })
             </th>
-            <th>
+            <th class="table-cell-center">
                 Enabled
             </th>
-            <th>
+            <th class="table-cell-center">
                 Recurring
             </th>
             <th></th>
@@ -100,25 +100,24 @@
                     @Html.DisplayFor(modelItem => Model.Recordings[i].StartDate)
                     @Html.HiddenFor(modelItem => Model.Recordings[i].StartDate)
                 </td>
-                <td>
+                <td data-toggle="tooltip" data-html="true" data-container="body" data-original-title="@Model.Recordings[i].Duration" class="table-cell-center">
                     @Html.DisplayFor(modelItem => Model.Recordings[i].StartTime)
                     @Html.HiddenFor(modelItem => Model.Recordings[i].StartTime)
                 </td>
-                <td>
+                <td data-toggle="tooltip" data-html="true" data-container="body" data-original-title="@Model.Recordings[i].Duration" class="table-cell-center">
                     @Html.DisplayFor(modelItem => Model.Recordings[i].EndTime)
                     @Html.HiddenFor(modelItem => Model.Recordings[i].EndTime)
                 </td>
-                <td>
+                <td class="table-cell-center">
                     @Html.DisplayFor(modelItem => Model.Recordings[i].IsEnabled)
                     @Html.HiddenFor(modelItem => Model.Recordings[i].IsEnabled)
                 </td>
-                <td>
+                <td data-toggle="tooltip" data-html="true" data-container="body" data-original-title="@Model.Recordings[i].RecurrenceTooltipText" class="table-cell-center">
                     @Html.DisplayFor(modelItem => Model.Recordings[i].IsRecurring)
                     @Html.HiddenFor(modelItem => Model.Recordings[i].IsRecurring)
                 </td>
             </tr>
         }
-
     </table>
     <br />
     <p>

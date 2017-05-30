@@ -54,10 +54,10 @@
             <th>
                 @Html.ActionLink("Time", "Index", new { page = ViewBag.CurrentPage, sortOrder = "ShutdownTime" })
             </th>
-            <th>
+            <th class="table-cell-center">
                 Enabled
             </th>
-            <th>
+            <th class="table-cell-center">
                 Recurring
             </th>
             <th></th>
@@ -85,11 +85,11 @@
                     @Html.DisplayFor(modelItem => Model.Shutdowns[i].ShutdownTime)
                     @Html.HiddenFor(modelItem => Model.Shutdowns[i].ShutdownTime)
                 </td>
-                <td>
+                <td class="table-cell-center">
                     @Html.DisplayFor(modelItem => Model.Shutdowns[i].IsEnabled)
                     @Html.HiddenFor(modelItem => Model.Shutdowns[i].IsEnabled)
                 </td>
-                <td>
+                <td align="center" data-toggle="tooltip" data-html="true" data-container="body" data-original-title="@Model.Shutdowns[i].RecurrenceTooltipText" class="table-cell-center">
                     @Html.DisplayFor(modelItem => Model.Shutdowns[i].IsRecurring)
                     @Html.HiddenFor(modelItem => Model.Shutdowns[i].IsRecurring)
                 </td>

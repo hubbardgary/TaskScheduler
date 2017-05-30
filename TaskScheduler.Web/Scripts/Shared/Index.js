@@ -1,4 +1,8 @@
-﻿$('#deleteSelected').on('click', function () {
+﻿$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+$('#deleteSelected').on('click', function () {
     var tasks = '';
     $(':checkbox[name*="Selected"]:checked').each(function () {
         tasks += '<li>' + decodeURIComponent(this.id) + '</li>';

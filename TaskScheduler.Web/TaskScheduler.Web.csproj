@@ -162,6 +162,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\TaskUtils.cs" />
     <Compile Include="Models\Enums\ActionOutcome.cs" />
     <Compile Include="Models\Recording\RecordingIndexViewModel.cs" />
     <Compile Include="Models\Recording\RecordingViewModel.cs" />

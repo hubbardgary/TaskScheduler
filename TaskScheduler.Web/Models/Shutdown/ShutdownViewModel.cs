@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using TaskScheduler.Core.Enums;
+using TaskScheduler.Web.Helpers;
 
 namespace TaskScheduler.Web.Models.Shutdown
 {
@@ -41,5 +42,17 @@ namespace TaskScheduler.Web.Models.Shutdown
         public bool IsEnabled { get; set; } = true;
 
         public bool Selected { get; set; }
+
+        public string RecurrenceTooltipText
+        {
+            get
+            {
+                if (IsRecurring)
+                {
+                    return TaskUtils.GetRecurrenceTooltipText(Recurrence, ShutdownDate, RecurrenceEndDate);
+                }
+                return string.Empty;
+            }
+        }
     }
 }
