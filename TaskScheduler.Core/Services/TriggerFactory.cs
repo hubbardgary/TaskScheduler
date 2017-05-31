@@ -23,6 +23,12 @@ namespace TaskScheduler.Core.Services
                         WeeksInterval = 1,
                         DaysOfWeek = triggerDate.ToTaskDay()
                     };
+                case RecurrenceType.WeekDays:
+                    return new WeeklyTrigger
+                    {
+                        WeeksInterval = 1,
+                        DaysOfWeek = DaysOfTheWeek.Monday | DaysOfTheWeek.Tuesday | DaysOfTheWeek.Wednesday | DaysOfTheWeek.Thursday | DaysOfTheWeek.Friday
+                    };
                 default:
                     // One off task
                     return new TimeTrigger();

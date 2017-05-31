@@ -66,6 +66,11 @@ namespace TaskScheduler.Core.Extensions
                     return RecurrenceType.Daily;
                 }
 
+                if (weeklyTrigger.DaysOfWeek == (DaysOfTheWeek.Monday | DaysOfTheWeek.Tuesday | DaysOfTheWeek.Wednesday | DaysOfTheWeek.Thursday | DaysOfTheWeek.Friday))
+                {
+                    return RecurrenceType.WeekDays;
+                }
+
                 return RecurrenceType.Weekly;
             }
             throw new Exception("Unable to determine task recurrence.");
